@@ -1,0 +1,82 @@
+{% extends "partials/base.html" %} <br />
+{% block title %} Home {% endblock %} <br />
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-header">Statistics</div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card shadow">
+                <div class="card-body">
+                  <h6>Total</h6>
+                  <p class="text-center">{{ total_todo }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card shadow">
+                <div class="card-body">
+                  <h6>Complete</h6>
+                  <p class="text-center">{{ completed_todos }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card shadow">
+                <div class="card-body">
+                  <h6>Pending</h6>
+                  <p class="text-center">{{ pending_todos }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-header">ToDo Form</div>
+        <div class="card-body">
+          <form action="/add" method="POST">
+            <label for="title">Title</label>
+            <input
+              class="form-control"
+              type="text"
+              name="title"
+              placeholder="Add todo..."
+            />
+            <input
+              class="btn btn-primary mt-2 btn-sm"
+              type="submit"
+              value="Add"
+            />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if total_todo == 0 %}
+  <marquee class="mt-3 display-5" behavior="" direction=""
+    >No available Todo... Use the Todo form to create a new Todo.</marquee
+  >
+  {% endif %} <br />
+  {% for todo in todo_list %}
+  <div class="border-start border-5 mt-3 shadow p-3">
+    <div class="card-body">
+      <h5>{{ todo.id }} | {{ todo.title }}</h5>
+      {% if todo.complete %}
+      <span class="badge bg-success">Complete</span>
+      {% else %}
+      <span class="badge bg-secondary">Pending</span>
+      {% endif %}
+      <a href="update/{{ todo.id }}" class="btn btn-info btn-sm">Update</a>
+      <a href="/delete/{{ todo.id }}" class="btn btn-danger btn-sm">Delete</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
